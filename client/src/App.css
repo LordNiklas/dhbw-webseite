@@ -15,68 +15,15 @@ nav {
   margin-top: 10px;
 }
 
-nav ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-nav li {
-  display: inline;
-  margin-right: 20px;
-}
-
-nav a {
-  color: black;
-  text-decoration: none;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-nav a:hover {
-  background-color: #2980b9;
-}
-
-form {
-  max-width: 400px;
-  margin: 20px auto;
-  display: flex;
-  flex-direction: column;
-}
-
-form div {
-  margin-bottom: 15px;
-}
-
-label {
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button {
-  padding: 10px 20px;
-  background-color: #3498db;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #2980b9;
-}
-
 .content-section {
   display: none; /* Alle Abschnitte standardmäßig ausblenden */
 }
 
-h1, h2 {
+h1 {
+  color: white;
+}
+
+h2 {
   color: #333;
 }
 
@@ -91,4 +38,14 @@ h1, h2 {
 img {
   max-width: 100%;
   height: auto;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #2c3e50;
+  color: white;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }

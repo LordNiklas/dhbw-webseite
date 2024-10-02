@@ -3,57 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="App.css" rel="stylesheet"> <!-- Verlinkung zur CSS-Datei -->
-  <script src="App.js" defer></script> <!-- Verlinkung zur JS-Datei -->
-  <title>Heritage Hideaways</title>
+  
+  <title>The Heritage Hideaways</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Eigene CSS-Datei -->
+  <link href="App.css" rel="stylesheet">
 </head>
+
 <body>
-  <h1>Willkommen auf The Heritage Hideaways!</h1>
-  <nav>
-    <ul>
-      <li><a href="#home" onclick="showSection('home')">Home</a></li>
-      <li><a href="#about" onclick="showSection('about')">Wohnungen</a></li>
-      <li><a href="#contact" onclick="showSection('contact')">Kontakt</a></li>
-    </ul>
+  <header>
+    <h1>The Heritage Hideaways</h1>
+  </header>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Heritage Hideaways</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#home" onclick="showSection('home')">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#about" onclick="showSection('about')">Appartment</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#contact" onclick="showSection('contact')">Contact</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Sign Up</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Login</a>
+        </li>
+      </ul>
+    </div>
   </nav>
+
   <main>
-    <!-- Home Section -->
     <section id="home" class="content-section">
-      <p>Willkommen bei The Heritage Hideaways, wo Luxus und Tradition aufeinandertreffen. Unsere erlesenen Ferienhäuser im Old Money-Stil bieten Ihnen die perfekte Kombination aus Eleganz, Diskretion und zeitlosem Charme. Jedes unserer exklusiven Anwesen wurde sorgfältig ausgewählt, um Ihnen ein einzigartiges Urlaubserlebnis zu bieten – geprägt von Raffinesse, Geschichte und höchsten Standards.</p>
+      <h2>Willkommen bei The Heritage Hideaways</h2>
+      <p>Willkommen bei The Heritage Hideaways, wo Luxus und Tradition aufeinandertreffen...</p>
     </section>
 
-    <!-- Wohnungen Section -->
     <section id="about" class="content-section" style="display: none;">
       <h2>Unsere Ferienwohnungen</h2>
-      <div class="property-card">
-        <img src="https://example.com/wohnung1.jpg" alt="Ferienwohnung Am See" />
-        <h3>Ferienwohnung Am See</h3>
-        <p>Eine schöne Wohnung direkt am See mit atemberaubendem Ausblick.</p>
-        <p class="availability">Verfügbar</p>
-        <a href="#book" class="book-button">Jetzt Buchen</a>
-      </div>
-      <!-- Weitere Wohnungen hier -->
+      <div id="apartmentsList"></div> <!-- Hier werden die Ferienwohnungen angezeigt -->
     </section>
 
-    <!-- Kontakt Section -->
     <section id="contact" class="content-section" style="display: none;">
       <h2>Kontaktieren Sie uns</h2>
       <form id="contactForm">
-        <div>
+        <div class="form-group">
           <label for="name">Name:</label>
-          <input type="text" id="name" name="name" required>
+          <input type="text" class="form-control" id="name" name="name" required>
         </div>
-        <div>
+        <div class="form-group">
           <label for="email">E-Mail:</label>
-          <input type="email" id="email" name="email" required>
+          <input type="email" class="form-control" id="email" name="email" required>
         </div>
-        <div>
+        <div class="form-group">
           <label for="message">Nachricht:</label>
-          <textarea id="message" name="message" rows="5" required></textarea>
+          <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
         </div>
-        <div>
-          <button type="submit">Absenden</button>
-        </div>
+        <button type="submit" class="btn btn-primary">Absenden</button>
       </form>
       <p id="formStatus" style="color:green;"></p>
     </section>
@@ -62,5 +81,13 @@
   <footer>
     <p>&copy; 2024 The Heritage Hideaways</p>
   </footer>
+
+  <!-- Bootstrap JS und jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Eigene JS-Datei -->
+  <script src="App.js" defer></script>
 </body>
 </html>
