@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="App.css" rel="stylesheet"> <!-- Verlinkung zur CSS-Datei -->
+  <script src="App.js" defer></script> <!-- Verlinkung zur JS-Datei -->
+  <title>Heritage Hideaways</title>
+</head>
+<body>
+  <h1>Willkommen auf The Heritage Hideaways!</h1>
+  <nav>
+    <ul>
+      <li><a href="#home" onclick="showSection('home')">Home</a></li>
+      <li><a href="#about" onclick="showSection('about')">Wohnungen</a></li>
+      <li><a href="#contact" onclick="showSection('contact')">Kontakt</a></li>
+    </ul>
+  </nav>
+  <main>
+    <!-- Home Section -->
+    <section id="home" class="content-section">
+      <p>Willkommen bei The Heritage Hideaways, wo Luxus und Tradition aufeinandertreffen. Unsere erlesenen Ferienhäuser im Old Money-Stil bieten Ihnen die perfekte Kombination aus Eleganz, Diskretion und zeitlosem Charme. Jedes unserer exklusiven Anwesen wurde sorgfältig ausgewählt, um Ihnen ein einzigartiges Urlaubserlebnis zu bieten – geprägt von Raffinesse, Geschichte und höchsten Standards.</p>
+    </section>
+
+    <!-- Wohnungen Section -->
+    <section id="about" class="content-section" style="display: none;">
+      <h2>Unsere Ferienwohnungen</h2>
+      <div class="property-card">
+        <img src="https://example.com/wohnung1.jpg" alt="Ferienwohnung Am See" />
+        <h3>Ferienwohnung Am See</h3>
+        <p>Eine schöne Wohnung direkt am See mit atemberaubendem Ausblick.</p>
+        <p class="availability">Verfügbar</p>
+        <a href="#book" class="book-button">Jetzt Buchen</a>
+      </div>
+      <!-- Weitere Wohnungen hier -->
+    </section>
+
+    <!-- Kontakt Section -->
+    <section id="contact" class="content-section" style="display: none;">
+      <h2>Kontaktieren Sie uns</h2>
+      <form id="contactForm">
+        <div>
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+          <label for="email">E-Mail:</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+          <label for="message">Nachricht:</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        <div>
+          <button type="submit">Absenden</button>
+        </div>
+      </form>
+      <p id="formStatus" style="color:green;"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 The Heritage Hideaways</p>
+  </footer>
+</body>
+</html>
