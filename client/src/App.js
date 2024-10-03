@@ -8,7 +8,7 @@ function showSection(section) {
   document.getElementById(section).style.display = 'block';
 }
 
-// Füge diese Funktion in deine App.js ein, um die Wohnungen anzuzeigen
+// Funktion zum Abrufen der Ferienwohnungen
 async function fetchProperties() {
   try {
     const response = await fetch('/api/properties');
@@ -47,7 +47,7 @@ function displayProperties(properties) {
   });
 }
 
-// Funktion, um das Buchungsmodal zu öffnen und die gebuchten Zeiten anzuzeigen
+// Funktion, um das Buchungsmodal zu öffnen
 async function openBookingModal(propertyId, propertyName) {
   const modalTitle = document.getElementById('bookingModalLabel');
   const modalBody = document.getElementById('bookingModalBody');
@@ -60,7 +60,6 @@ async function openBookingModal(propertyId, propertyName) {
     const response = await fetch(`/api/properties/${propertyId}`);
     const property = await response.json();
 
-    // Gebuchte Zeiten anzeigen
     const bookedDates = property.bookedDates.length > 0
       ? property.bookedDates.join(', ')
       : 'Keine gebuchten Daten';
@@ -137,3 +136,109 @@ document.getElementById('contactForm').addEventListener('submit', function(event
 
   document.getElementById('formStatus').textContent = 'Nachricht wurde gesendet!';
 });
+
+// Anmeldung Absende-Logik
+document.getElementById('loginForm').addEventListener('submit', async function(event) {
+  event.preventDefault();
+  
+  const username = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+
+  // Log the values being sent
+  console.log('Username:', username, 'Password:', password);
+
+  try {
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password })
+    });
+
+    if (response.ok) {
+      const message = await response.text();
+      document.getElementById('loginStatus').textContent = message;
+      document.getElementById('loginModal').modal('hide'); // Close login modal
+      showUserInterface(username); // Show user interface after login
+    } else {
+      const error = await response.text();
+      console.error('Login error response:', error);
+      document.getElementById('loginStatus').textContent = error;
+    }
+  } catch (error) {
+    console.error('Fehler bei der Anmeldung:', error);
+    document.getElementById('loginStatus').textContent = 'Fehler bei der Anmeldung.';
+  }
+});
+
+// Registrierung Absende-Logik
+document.getElementById('registerForm').addEventListener('submit', async function(event) {
+  event.preventDefault();
+  
+  const username = document.getElementById('registerUsername').value;
+  const password = document.getElementById('registerPassword').value;
+
+  try {
+    const response = await fetch('/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password })
+    });
+
+    if (response.ok) {
+      const message = await response.text();
+      document.getElementById('registerStatus').textContent = message;
+      document.getElementById('registerModal').modal('hide'); // Close register modal
+    } else {
+      const error = await response.text();
+      document.getElementById('registerStatus').textContent = error;
+    }
+  } catch (error) {
+    console.error('Fehler bei der Registrierung:', error);
+    document.getElementById('registerStatus').textContent = 'Fehler bei der Registrierung.';
+  }
+});
+
+// Funktion zur Anzeige des Benutzernamens und Logout-Buttons
+function showUserInterface(username) {
+  // Hides the login and register links
+  document.querySelectorAll('.nav-item.login-register').forEach(el => el.style.display = 'none');
+
+  // Creates a new user interface section
+  const userInterface = document.createElement('div');
+  userInterface.className = 'navbar-nav';
+  userInterface.innerHTML = `
+    <span class="navbar-text">Willkommen, ${username}!</span>
+    <button class="btn btn-danger ml-2" id="logoutButton">Logout</button>
+  `;
+  
+  // Add user interface to the navbar
+  const navbar = document.getElementById('navbarNav');
+  navbar.appendChild(userInterface);
+
+  // Add logout button functionality
+  document.getElementById('logoutButton').addEventListener('click', function() {
+    logoutUser();
+  });
+}
+
+// Funktion zum Abmelden
+async function logoutUser() {
+  try {
+    const response = await fetch('/api/logout', {
+      method: 'POST'
+    });
+
+    if (response.ok) {
+      location.reload(); // Reload the page after logout
+    } else {
+      const error = await response.text();
+      console.error('Logout error:', error);
+    }
+  } catch (error) {
+    console.error('Fehler bei der Abmeldung:', error);
+  }
+}

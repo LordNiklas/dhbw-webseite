@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const bcrypt = require('bcrypt');
 
 // Initialisiere Express
 const app = express();
@@ -28,6 +29,14 @@ const propertySchema = new mongoose.Schema({
 });
 
 const Property = mongoose.model('Property', propertySchema);
+
+// Definiere ein Schema und Modell für die Benutzer
+const userSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true }
+});
+
+const User = mongoose.model('User', userSchema);
 
 // API-Route zum Abrufen aller Ferienwohnungen
 app.get('/api/properties', async (req, res) => {
@@ -83,16 +92,54 @@ app.post('/api/properties/:id/book', async (req, res) => {
   }
 });
 
+// API-Route zum Anmelden eines Benutzers
+app.post('/api/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).send('Benutzername oder Passwort ist falsch.');
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).send('Benutzername oder Passwort ist falsch.');
+    }
+
+    res.status(200).send('Erfolgreich angemeldet!');
+  } catch (err) {
+    console.error('Fehler bei der Anmeldung:', err);
+    res.status(500).send('Serverfehler.');
+  }
+});
+
+// API-Route zur Registrierung eines Benutzers
+app.post('/api/register', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ username, password: hashedPassword });
+    await newUser.save();
+
+    res.status(201).send('Benutzer erfolgreich registriert.');
+  } catch (err) {
+    console.error('Fehler bei der Registrierung:', err);
+    res.status(500).send('Serverfehler.');
+  }
+});
+
 // Route für die Root-URL, die die HTML-Datei zurückgibt
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'src', 'App.html'));
 });
 
-// Statische Dateien (CSS und JS)
+// Statische Dateien bereitstellen (CSS, JS)
 app.use(express.static(path.join(__dirname, 'client', 'src')));
 
-// Starte den Server
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Server läuft auf http://localhost:${port}/`);
+// Server starten
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server läuft auf Port ${PORT}`);
 });
