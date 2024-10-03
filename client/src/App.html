@@ -6,9 +6,6 @@
   
   <title>The Heritage Hideaways</title>
   
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  
   <!-- Eigene CSS-Datei -->
   <link href="App.css" rel="stylesheet">
 </head>
@@ -32,15 +29,7 @@
           <a class="nav-link" href="#about" onclick="showSection('about')">Appartment</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#contact" onclick="showSection('contact')">Contact</a>
-        </li>
-      </ul>
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Sign Up</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Login</a>
+          <a class="nav-link" href="#contact" onclick="showSection('contact')">Kontakt</a>
         </li>
       </ul>
     </div>
@@ -49,38 +38,33 @@
   <main>
     <section id="home" class="content-section">
       <h2>Willkommen bei The Heritage Hideaways</h2>
-      <p>Willkommen bei The Heritage Hideaways, wo Luxus und Tradition aufeinandertreffen...</p>
+      <p>Entdecken Sie unsere charmanten Ferienwohnungen in historischen Gebäuden.</p>
     </section>
 
     <section id="about" class="content-section" style="display: none;">
       <h2>Unsere Ferienwohnungen</h2>
-      <div id="apartmentsList"></div> <!-- Hier werden die Ferienwohnungen angezeigt -->
     </section>
 
     <section id="contact" class="content-section" style="display: none;">
-      <h2>Kontaktieren Sie uns</h2>
+      <h2>Kontakt</h2>
       <form id="contactForm">
         <div class="form-group">
           <label for="name">Name:</label>
-          <input type="text" class="form-control" id="name" name="name" required>
+          <input type="text" class="form-control" id="name">
         </div>
         <div class="form-group">
           <label for="email">E-Mail:</label>
-          <input type="email" class="form-control" id="email" name="email" required>
+          <input type="email" class="form-control" id="email">
         </div>
         <div class="form-group">
           <label for="message">Nachricht:</label>
-          <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+          <textarea class="form-control" id="message"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Absenden</button>
+        <button type="submit" class="btn btn-primary">Senden</button>
       </form>
-      <p id="formStatus" style="color:green;"></p>
+      <p id="formStatus"></p>
     </section>
   </main>
-
-  <footer>
-    <p>&copy; 2024 The Heritage Hideaways</p>
-  </footer>
 
   <!-- Buchungsmodal -->
   <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
@@ -88,25 +72,29 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="bookingModalLabel">Buchung</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div class="modal-body" id="bookingModalBody">
-          <!-- Buchungsdaten-Input wird hier hinzugefügt -->
+          <!-- Buchungsinformationen werden hier eingefügt -->
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
           <button type="button" class="btn btn-primary" id="confirmBooking">Buchung bestätigen</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Bootstrap und jQuery -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  
-  <!-- Eigene JavaScript-Datei -->
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JS (inkl. Popper.js) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+
+  <!-- Eigene JS-Datei -->
   <script src="App.js"></script>
 </body>
 </html>

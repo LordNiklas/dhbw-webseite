@@ -40,12 +40,12 @@ function displayProperties(properties) {
       <img src="${property.image}" alt="${property.name}" style="width: 100%; height: auto; max-width: 300px;">
       <p>${property.description}</p>
       <p>Verfügbarkeit: ${property.availability}</p>
-      <button onclick="bookProperty('${property._id}')">Buchen</button>
+      <p>Preis: ${property.price} €</p>
+      <button class="btn btn-primary" onclick="openBookingModal('${property._id}', '${property.name}')">Buchen</button>
     `;
     aboutSection.appendChild(propertyCard);
   });
 }
-
 
 // Funktion, um das Buchungsmodal zu öffnen
 function openBookingModal(propertyId, propertyName) {
