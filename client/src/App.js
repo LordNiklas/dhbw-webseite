@@ -47,24 +47,41 @@ function displayProperties(properties) {
   });
 }
 
-// Funktion, um das Buchungsmodal zu öffnen
-function openBookingModal(propertyId, propertyName) {
+// Funktion, um das Buchungsmodal zu öffnen und die gebuchten Zeiten anzuzeigen
+async function openBookingModal(propertyId, propertyName) {
   const modalTitle = document.getElementById('bookingModalLabel');
   const modalBody = document.getElementById('bookingModalBody');
   const modal = new bootstrap.Modal(document.getElementById('bookingModal'));
 
   modalTitle.textContent = `Buchung für ${propertyName}`;
-  modalBody.innerHTML = `
-    <label for="bookedDates">Bitte geben Sie die gewünschten Buchungsdaten im Format YYYY-MM-DD, getrennt durch Kommas, ein:</label>
-    <input type="text" class="form-control" id="bookedDates" placeholder="2024-10-10,2024-10-15">
-  `;
-  
-  document.getElementById('confirmBooking').onclick = function() {
-    bookProperty(propertyId);
-    modal.hide();
-  };
 
-  modal.show();
+  // Lade die Details der Ferienwohnung (einschließlich gebuchter Zeiten)
+  try {
+    const response = await fetch(`/api/properties/${propertyId}`);
+    const property = await response.json();
+
+    // Gebuchte Zeiten anzeigen
+    const bookedDates = property.bookedDates.length > 0
+      ? property.bookedDates.join(', ')
+      : 'Keine gebuchten Daten';
+
+    modalBody.innerHTML = `
+      <p><strong>Bereits gebuchte Zeiten:</strong> ${bookedDates}</p>
+      <label for="bookedDates">Bitte geben Sie die gewünschten Buchungsdaten im Format YYYY-MM-DD, getrennt durch Kommas, ein:</label>
+      <input type="text" class="form-control" id="bookedDates" placeholder="2024-10-10,2024-10-15">
+    `;
+
+    // Klick-Event für die Buchungsbestätigung
+    document.getElementById('confirmBooking').onclick = function() {
+      bookProperty(propertyId);
+      modal.hide();
+    };
+
+    modal.show();
+  } catch (error) {
+    console.error('Fehler beim Abrufen der Ferienwohnung:', error);
+    alert('Fehler beim Abrufen der Ferienwohnung.');
+  }
 }
 
 // Buchungsfunktion
@@ -113,11 +130,10 @@ document.getElementById('contactForm').addEventListener('submit', function(event
   const email = document.getElementById('email').value;
   const message = document.getElementById('message').value;
 
-  if (name && email && message) {
-    document.getElementById('formStatus').textContent = 'Ihre Nachricht wurde erfolgreich gesendet!';
-    document.getElementById('contactForm').reset();
-  } else {
-    document.getElementById('formStatus').textContent = 'Bitte füllen Sie alle Felder aus.';
-    document.getElementById('formStatus').style.color = 'red';
+  if (!name || !email || !message) {
+    alert('Bitte füllen Sie alle Felder aus.');
+    return;
   }
+
+  document.getElementById('formStatus').textContent = 'Nachricht wurde gesendet!';
 });

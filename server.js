@@ -40,6 +40,21 @@ app.get('/api/properties', async (req, res) => {
   }
 });
 
+// API-Route zum Abrufen einer spezifischen Ferienwohnung anhand ihrer ID
+app.get('/api/properties/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const property = await Property.findById(id);
+    if (!property) {
+      return res.status(404).send('Ferienwohnung nicht gefunden');
+    }
+    res.json(property);
+  } catch (err) {
+    console.error('Fehler beim Abrufen der Ferienwohnung:', err);
+    res.status(500).send(err);
+  }
+});
+
 // API-Route zum Buchen einer Ferienwohnung
 app.post('/api/properties/:id/book', async (req, res) => {
   const { id } = req.params;
