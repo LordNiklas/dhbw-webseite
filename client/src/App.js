@@ -4,7 +4,6 @@ function showSection(section) {
   document.querySelectorAll('.content-section').forEach(function(sec) {
     sec.style.display = 'none';
   });
-
   // Den gewünschten Abschnitt anzeigen
   document.getElementById(section).style.display = 'block';
 }
@@ -38,12 +37,66 @@ function displayProperties(properties) {
     propertyCard.classList.add('property-card');
     propertyCard.innerHTML = `
       <h3>${property.name}</h3>
-      <img src="${property.image}" alt="${property.name}">
+      <img src="${property.image}" alt="${property.name}" style="width: 100%; height: auto; max-width: 300px;">
       <p>${property.description}</p>
       <p>Verfügbarkeit: ${property.availability}</p>
+      <button onclick="bookProperty('${property._id}')">Buchen</button>
     `;
     aboutSection.appendChild(propertyCard);
   });
+}
+
+
+// Funktion, um das Buchungsmodal zu öffnen
+function openBookingModal(propertyId, propertyName) {
+  const modalTitle = document.getElementById('bookingModalLabel');
+  const modalBody = document.getElementById('bookingModalBody');
+  const modal = new bootstrap.Modal(document.getElementById('bookingModal'));
+
+  modalTitle.textContent = `Buchung für ${propertyName}`;
+  modalBody.innerHTML = `
+    <label for="bookedDates">Bitte geben Sie die gewünschten Buchungsdaten im Format YYYY-MM-DD, getrennt durch Kommas, ein:</label>
+    <input type="text" class="form-control" id="bookedDates" placeholder="2024-10-10,2024-10-15">
+  `;
+  
+  document.getElementById('confirmBooking').onclick = function() {
+    bookProperty(propertyId);
+    modal.hide();
+  };
+
+  modal.show();
+}
+
+// Buchungsfunktion
+async function bookProperty(propertyId) {
+  const bookedDates = document.getElementById('bookedDates').value;
+
+  if (!bookedDates) {
+    alert('Keine Buchungsdaten eingegeben!');
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/properties/${propertyId}/book`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        bookedDates: bookedDates.split(',')
+      })
+    });
+
+    if (response.ok) {
+      alert('Die Ferienwohnung wurde erfolgreich gebucht!');
+    } else {
+      const error = await response.text();
+      alert('Fehler bei der Buchung: ' + error);
+    }
+  } catch (error) {
+    console.error('Fehler bei der Buchung:', error);
+    alert('Es ist ein Fehler bei der Buchung aufgetreten.');
+  }
 }
 
 // Rufe die fetchProperties-Funktion auf, wenn die Seite geladen wird
@@ -51,7 +104,6 @@ window.onload = function() {
   showSection('home'); // Zeige die Startseite
   fetchProperties();   // Lade die Ferienwohnungen
 };
-
 
 // Kontaktformular Absende-Logik
 document.getElementById('contactForm').addEventListener('submit', function(event) {

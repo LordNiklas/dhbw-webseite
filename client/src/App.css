@@ -17,6 +17,11 @@ nav {
 
 .content-section {
   display: none; /* Alle Abschnitte standardmäßig ausblenden */
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
 }
 
 h1 {
@@ -33,6 +38,11 @@ h2 {
   padding: 10px;
   margin: 10px 0;
   background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.property-card img {
+  border-radius: 5px;
 }
 
 img {
@@ -49,3 +59,28 @@ footer {
   bottom: 0;
   width: 100%;
 }
+
+/* Styles für das Buchungsmodal */
+.modal-content {
+  border-radius: 5px;
+}
+
+.modal-header {
+  border-bottom: 1px solid #ddd;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-footer {
+  border-top: 1px solid #ddd;
+}
+
+.property-card img {
+  width: 100%; /* Setzt die Breite des Bildes auf 100% des Containers */
+  height: auto; /* Höhe automatisch, um das Seitenverhältnis zu bewahren */
+  max-width: 300px; /* Maximale Breite auf 300px setzen (oder einen anderen Wert) */
+  border-radius: 5px; /* Optionale abgerundete Ecken */
+}
+
