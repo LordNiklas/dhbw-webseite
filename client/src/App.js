@@ -51,7 +51,8 @@ function displayProperties(properties) {
 async function openBookingModal(propertyId, propertyName) {
   const modalTitle = document.getElementById('bookingModalLabel');
   const modalBody = document.getElementById('bookingModalBody');
-  const modal = new bootstrap.Modal(document.getElementById('bookingModal'));
+  const modal = $('#bookingModal').modal('show');
+
 
   modalTitle.textContent = `Buchung für ${propertyName}`;
 
@@ -191,7 +192,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
     if (response.ok) {
       const message = await response.text();
       document.getElementById('registerStatus').textContent = message;
-      document.getElementById('registerModal').modal('hide'); // Close register modal
+      $('#registerModal').modal('hide'); // Close register modal
     } else {
       const error = await response.text();
       document.getElementById('registerStatus').textContent = error;

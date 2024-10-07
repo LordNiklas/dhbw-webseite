@@ -119,16 +119,24 @@ app.post('/api/register', async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, password: hashedPassword });
-    await newUser.save();
+    // Überprüfen, ob der Benutzername bereits existiert
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).send('Benutzername bereits vergeben. Bitte wähle einen anderen.');
+    }
 
-    res.status(201).send('Benutzer erfolgreich registriert.');
-  } catch (err) {
-    console.error('Fehler bei der Registrierung:', err);
-    res.status(500).send('Serverfehler.');
+    // Neuen Benutzer erstellen und speichern
+    const newUser = new User({ username, password });
+    await newUser.save();
+    
+    // Erfolgreiche Registrierung
+    res.status(200).send('Registrierung erfolgreich!');
+  } catch (error) {
+    console.error('Fehler bei der Registrierung:', error);
+    res.status(500).send('Fehler bei der Registrierung.');
   }
 });
+
 
 // Route für die Root-URL, die die HTML-Datei zurückgibt
 app.get('/', (req, res) => {
