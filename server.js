@@ -34,11 +34,25 @@ const propertySchema = new mongoose.Schema({
 
 const Property = mongoose.model('Property', propertySchema);
 
-// Definiere ein Schema und Modell für die Benutzer
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  email: { type: String, required: true, unique: true } // E-Mail-Feld hinzugefügt
+  username: {
+      type: String,
+      required: true,
+      unique: true // Hinzufügen, um sicherzustellen, dass jeder Benutzername einzigartig ist
+  },
+  email: {
+      type: String,
+      required: true,
+      unique: true
+  },
+  password: {
+      type: String,
+      required: true
+  },
+  isProvider: {
+      type: Boolean,
+      default: false
+  }
 });
 
 const User = mongoose.model('User', userSchema);
@@ -136,27 +150,32 @@ app.post('/api/properties/:id/book', async (req, res) => {
 });
 
 // API-Route zum Anmelden eines Benutzers
+// Beispiel für eine Express.js-Route zum Anmelden
 app.post('/api/login', async (req, res) => {
-  const { email, password } = req.body;
-  console.log('Login attempt with:', email); // Logge die E-Mail für Debugging
+  const { email, password, isProvider } = req.body; // Füge `isProvider` hinzu
 
   try {
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(401).json({ error: 'E-Mail oder Passwort ist falsch.' });
-    }
+      // Benutzer in der Datenbank finden
+      const user = await User.findOne({ email });
+      if (!user) {
+          return res.status(401).send('Benutzer nicht gefunden.');
+      }
 
-    // Überprüfe, ob das Passwort übereinstimmt
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ error: 'E-Mail oder Passwort ist falsch.' });
-    }
+      // Passwortüberprüfung (angenommen, Sie verwenden bcrypt oder ein ähnliches Paket)
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+          return res.status(401).send('Falsches Passwort.');
+      }
 
-    // Wenn alles in Ordnung ist, sende eine Erfolgsnachricht
-    res.status(200).json({ message: 'Erfolgreich angemeldet!' });
-  } catch (err) {
-    console.error('Fehler bei der Anmeldung:', err);
-    res.status(500).json({ error: 'Serverfehler.' });
+      // Hier können Sie den Anbieterstatus speichern
+      user.isProvider = isProvider; // Speichern Sie den Anbieterstatus
+      await user.save(); // Aktualisieren Sie den Benutzer in der Datenbank
+
+      // Erfolgreiches Login
+      res.send('Erfolgreich angemeldet.');
+  } catch (error){
+      console.error('Fehler bei der Anmeldung:', error);
+      res.status(500).send('Interner Serverfehler.');
   }
 });
 
@@ -173,6 +192,10 @@ app.post('/api/register', [
   }
 
   const { username, password, email } = req.body;
+  console.log("Benutzername:", username);
+
+  // Protokolliere den Request-Body zur Überprüfung
+  console.log("Registrierungsdaten:", req.body);
 
   try {
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
@@ -188,10 +211,12 @@ app.post('/api/register', [
     res.status(201).json({ message: 'Registrierung erfolgreich!' });
   } catch (error) {
     console.error('Fehler bei der Registrierung:', error);
+    if (error.code === 11000) {
+      return res.status(409).json({ error: 'Benutzername oder E-Mail bereits vergeben.' });
+    }
     res.status(500).json({ error: 'Fehler bei der Registrierung.' });
   }
 });
-
 
 // Route für die Root-URL, die die HTML-Datei zurückgibt
 app.get('/', (req, res) => {

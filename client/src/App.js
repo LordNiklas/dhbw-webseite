@@ -1,11 +1,16 @@
 // Funktion zum Anzeigen von Abschnitten
-function showSection(section) {
-  // Alle Abschnitte verstecken
-  document.querySelectorAll('.content-section').forEach(function(sec) {
-    sec.style.display = 'none';
+function showSection(sectionId) {
+  // Alle Abschnitte ausblenden
+  const sections = document.querySelectorAll('.content-section');
+  sections.forEach(section => {
+      section.style.display = 'none';
   });
-  // Den gewünschten Abschnitt anzeigen
-  document.getElementById(section).style.display = 'block';
+
+  // Den gewählten Abschnitt anzeigen
+  const selectedSection = document.getElementById(sectionId);
+  if (selectedSection) {
+      selectedSection.style.display = 'block'; // Zeige den gewählten Abschnitt an
+  }
 }
 
 // Funktion zum Abrufen der Ferienwohnungen
@@ -164,39 +169,48 @@ document.getElementById('contactForm').addEventListener('submit', function(event
   document.getElementById('formStatus').textContent = 'Nachricht wurde gesendet!';
 });
 
+// Definiere die user-Variable am Anfang des Skripts
+let user = {
+  isProvider: false // Initialisiere isProvider oder andere Eigenschaften, die du brauchst
+};
+
 // Anmeldung Absende-Logik
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
   event.preventDefault();
   
-  const email = document.getElementById('loginEmail').value; // Ändere `username` in `email`
+  const email = document.getElementById('loginEmail').value; // E-Mail
   const password = document.getElementById('loginPassword').value;
+  user.isProvider = document.getElementById('isProvider').checked; // Anbieter-Checkbox aktualisieren
 
   // Log the values being sent
-  console.log('E-Mail:', email, 'Passwort:', password);
+  console.log('E-Mail:', email, 'Passwort:', password, 'Ist Anbieter:', user.isProvider);
 
   try {
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email, password }) // Übergebe `email` statt `username`
-    });
+      const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, password, isProvider: user.isProvider }) // Sende `isProvider` zusammen mit den anderen Daten
+      });
 
-    if (response.ok) {
-      const message = await response.text();
-      document.getElementById('loginStatus').textContent = message;
-      $('#loginModal').modal('hide'); // Close login modal
-      showUserInterface(email); // Show user interface after login
-      showSection('home'); // Zeige die Startseite nach der Anmeldung
-    } else {
-      const error = await response.text();
-      console.error('Login error response:', error);
-      document.getElementById('loginStatus').textContent = error;
-    }
+      if (response.ok) {
+          const message = await response.text();
+          document.getElementById('loginStatus').textContent = message;
+          $('#loginModal').modal('hide'); // Schließe das Anmeldefenster
+          showUserInterface(email); // Benutzeroberfläche nach dem Login anzeigen
+          showSection('home'); // Zeige die Startseite nach der Anmeldung
+          
+          // Anbieterbereich anzeigen oder ausblenden
+          showProviderSection();
+      } else {
+          const error = await response.text();
+          console.error('Login error response:', error);
+          document.getElementById('loginStatus').textContent = error;
+      }
   } catch (error) {
-    console.error('Fehler bei der Anmeldung:', error);
-    document.getElementById('loginStatus').textContent = 'Fehler bei der Anmeldung.';
+      console.error('Fehler bei der Anmeldung:', error);
+      document.getElementById('loginStatus').textContent = 'Fehler bei der Anmeldung.';
   }
 });
 
@@ -284,7 +298,47 @@ document.getElementById('addPropertyForm').addEventListener('submit', async func
   const imageFile = document.getElementById('propertyImage').files[0];
 
   const formData = new FormData();
-  formData.append('name', name);
+  formData.document.getElementById('loginForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value; // E-Mail
+    const password = document.getElementById('loginPassword').value;
+    const isProvider = document.getElementById('isProvider').checked; // Anbieter-Checkbox
+
+    // Log the values being sent
+    console.log('E-Mail:', email, 'Passwort:', password, 'Ist Anbieter:', isProvider);
+
+    try {
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password, isProvider }) // Sende `isProvider` zusammen mit den anderen Daten
+        });
+
+        if (response.ok) {
+            const message = await response.text();
+            document.getElementById('loginStatus').textContent = message;
+            $('#loginModal').modal('hide'); // Schließe das Anmeldefenster
+            showUserInterface(email); // Benutzeroberfläche nach dem Login anzeigen
+            showSection('home'); // Zeige die Startseite nach der Anmeldung
+            
+            // Überprüfe, ob der Benutzer ein Anbieter ist
+            if (isProvider) {
+                document.getElementById('addPropertySection').style.display = 'block'; // Anbieterbereich sichtbar machen
+            }
+        } else {
+            const error = await response.text();
+            console.error('Login error response:', error);
+            document.getElementById('loginStatus').textContent = error;
+        }
+    } catch (error) {
+        console.error('Fehler bei der Anmeldung:', error);
+        document.getElementById('loginStatus').textContent = 'Fehler bei der Anmeldung.';
+    }
+});
+end('name', name);
   formData.append('description', description);
   formData.append('availability', availability);
   formData.append('price', price);

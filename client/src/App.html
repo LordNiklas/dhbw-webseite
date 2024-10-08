@@ -53,7 +53,9 @@
 
         <div id="about" class="content-section" style="display: none;">
             <h2>Ferienwohnungen</h2>
-            <!-- Hier werden die Ferienwohnungen angezeigt -->
+        
+            <!-- Button für Anbieter, um Ferienwohnung hinzuzufügen -->
+            <button id="addPropertyButton" class="btn btn-success" style="display: none;" onclick="toggleAddPropertySection()">Ferienwohnung hinzufügen</button>
         
             <!-- Anbieterbereich - Sichtbar für eingeloggte Anbieter -->
             <div id="addPropertySection" style="display: none;">
@@ -91,7 +93,7 @@
                 <div id="addPropertyStatus" style="margin-top: 10px;"></div>
             </div>
         </div>        
-
+                
         <div id="contact" class="content-section" style="display: none;">
             <h2>Kontakt</h2>
             <form id="contactForm">
@@ -135,32 +137,37 @@
     </div>
 
     <!-- Anmelde-Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Anmelden</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="loginForm">
-                        <div class="form-group">
-                            <label for="loginEmail">E-Mail:</label>
-                            <input type="email" class="form-control" id="loginEmail" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="loginPassword">Passwort:</label>
-                            <input type="password" class="form-control" id="loginPassword" required>
-                        </div>
-                        <div id="loginStatus" class="text-danger"></div>
-                        <button type="submit" class="btn btn-primary">Anmelden</button>
-                    </form>
-                </div>
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Anmelden</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">E-Mail:</label>
+                        <input type="email" class="form-control" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Passwort:</label>
+                        <input type="password" class="form-control" id="loginPassword" required>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="isProvider">
+                        <label class="form-check-label" for="isProvider">Ich bin Anbieter</label>
+                    </div>
+                    <div id="loginStatus" class="text-danger"></div>
+                    <button type="submit" class="btn btn-primary">Anmelden</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
 
     <!-- Registrierungsmodal -->
     <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
@@ -186,6 +193,10 @@
                             <label for="registerPassword">Passwort:</label>
                             <input type="password" class="form-control" id="registerPassword" required>
                         </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="isProvider">
+                            <label class="form-check-label" for="isProvider">Ich bin Anbieter</label>
+                        </div>                        
                         <div id="registerStatus" class="text-danger"></div>
                         <button type="submit" class="btn btn-primary">Registrieren</button>
                     </form>
