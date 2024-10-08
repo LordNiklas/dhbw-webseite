@@ -53,7 +53,6 @@ async function openBookingModal(propertyId, propertyName) {
   const modalBody = document.getElementById('bookingModalBody');
   const modal = $('#bookingModal').modal('show');
 
-
   modalTitle.textContent = `Buchung für ${propertyName}`;
 
   // Lade die Details der Ferienwohnung (einschließlich gebuchter Zeiten)
@@ -169,11 +168,11 @@ document.getElementById('contactForm').addEventListener('submit', function(event
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
   event.preventDefault();
   
-  const username = document.getElementById('loginEmail').value;
+  const email = document.getElementById('loginEmail').value; // Ändere `username` in `email`
   const password = document.getElementById('loginPassword').value;
 
   // Log the values being sent
-  console.log('Username:', username, 'Password:', password);
+  console.log('E-Mail:', email, 'Passwort:', password);
 
   try {
     const response = await fetch('/api/login', {
@@ -181,14 +180,15 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ email, password }) // Übergebe `email` statt `username`
     });
 
     if (response.ok) {
       const message = await response.text();
       document.getElementById('loginStatus').textContent = message;
-      document.getElementById('loginModal').modal('hide'); // Close login modal
-      showUserInterface(username); // Show user interface after login
+      $('#loginModal').modal('hide'); // Close login modal
+      showUserInterface(email); // Show user interface after login
+      showSection('home'); // Zeige die Startseite nach der Anmeldung
     } else {
       const error = await response.text();
       console.error('Login error response:', error);
@@ -206,6 +206,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
   
   const username = document.getElementById('registerUsername').value;
   const password = document.getElementById('registerPassword').value;
+  const email = document.getElementById('registerEmail').value; // Füge E-Mail hinzu
 
   try {
     const response = await fetch('/api/register', {
@@ -213,7 +214,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, password, email }) // Sende die E-Mail mit
     });
 
     if (response.ok) {
@@ -231,18 +232,19 @@ document.getElementById('registerForm').addEventListener('submit', async functio
 });
 
 // Funktion zur Anzeige des Benutzernamens und Logout-Buttons
-function showUserInterface(username) {
+// Funktion zur Anzeige des Benutzernamens und Logout-Buttons
+function showUserInterface(email) {
   // Hides the login and register links
-  document.querySelectorAll('.nav-item.login-register').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('#auth-buttons .btn').forEach(el => el.style.display = 'none');
 
   // Creates a new user interface section
   const userInterface = document.createElement('div');
   userInterface.className = 'navbar-nav';
   userInterface.innerHTML = `
-    <span class="navbar-text">Willkommen, ${username}!</span>
+    <span class="navbar-text">Willkommen, ${email}!</span>
     <button class="btn btn-danger ml-2" id="logoutButton">Logout</button>
   `;
-  
+
   // Add user interface to the navbar
   const navbar = document.getElementById('navbarNav');
   navbar.appendChild(userInterface);
@@ -269,4 +271,46 @@ async function logoutUser() {
   } catch (error) {
     console.error('Fehler bei der Abmeldung:', error);
   }
+}
+
+// Event Listener für das Formular zum Hinzufügen der Ferienwohnung
+document.getElementById('addPropertyForm').addEventListener('submit', async function(event) {
+  event.preventDefault();
+
+  const name = document.getElementById('propertyName').value;
+  const description = document.getElementById('propertyDescription').value;
+  const availability = document.getElementById('propertyAvailability').value;
+  const price = document.getElementById('propertyPrice').value;
+  const imageFile = document.getElementById('propertyImage').files[0];
+
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('description', description);
+  formData.append('availability', availability);
+  formData.append('price', price);
+  formData.append('image', imageFile);
+
+  try {
+    const response = await fetch('/api/properties', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (response.ok) {
+      document.getElementById('addPropertyStatus').textContent = 'Ferienwohnung erfolgreich hinzugefügt!';
+      document.getElementById('addPropertyForm').reset(); // Formulareingaben zurücksetzen
+      fetchProperties(); // Aktualisiere die Liste der Ferienwohnungen
+    } else {
+      const error = await response.text();
+      document.getElementById('addPropertyStatus').textContent = 'Fehler: ' + error;
+    }
+  } catch (error) {
+    console.error('Fehler beim Hinzufügen der Ferienwohnung:', error);
+    document.getElementById('addPropertyStatus').textContent = 'Ein Fehler ist aufgetreten.';
+  }
+});
+
+// Funktion, um das Formular anzuzeigen
+function showAddPropertyForm() {
+  showSection('addPropertySection'); // Zeige den Abschnitt zum Hinzufügen von Ferienwohnungen
 }
