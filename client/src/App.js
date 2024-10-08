@@ -120,7 +120,34 @@ async function bookProperty(propertyId) {
 window.onload = function() {
   showSection('home'); // Zeige die Startseite
   fetchProperties();   // Lade die Ferienwohnungen
+  
+  // Überprüfe die Cookie-Einwilligung und zeige ggf. den Cookie-Banner
+  if (!checkCookieConsent()) {
+    document.getElementById('cookieBanner').style.display = 'block';
+  }
 };
+
+// Funktion zum Überprüfen, ob Cookies akzeptiert wurden
+function checkCookieConsent() {
+  return document.cookie.split(';').some((item) => item.trim().startsWith('cookiesAccepted='));
+}
+
+// Funktion zum Setzen des Cookies
+function setCookie(name, value, days) {
+  var expires = "";
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+// Event Listener für die "Akzeptieren"-Schaltfläche
+document.getElementById('acceptCookies').addEventListener('click', function () {
+  setCookie('cookiesAccepted', 'true', 365);  // Setze Cookie für 1 Jahr
+  document.getElementById('cookieBanner').style.display = 'none';
+});
 
 // Kontaktformular Absende-Logik
 document.getElementById('contactForm').addEventListener('submit', function(event) {
