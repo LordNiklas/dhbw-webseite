@@ -118,3 +118,30 @@ input[type="submit"] {
 input[type="submit"]:hover {
   background-color: #27ae60; /* Dunklere Farbe beim Hover */
 }
+
+/* Footer Styling */
+footer {
+  background-color: #f8f9fa;
+  padding: 40px 0;
+}
+
+footer ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+footer a {
+  font-size: 16px;
+  text-decoration: none;
+  color: #000;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+footer .text-center {
+  font-size: 14px;
+  color: #6c757d;
+}
+
