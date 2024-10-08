@@ -9,13 +9,13 @@
 </head>
 <body>
     <!-- Cookie Banner -->
-<div id="cookieBanner" class="cookie-banner">
-    <p>Diese Website verwendet Cookies, um Ihnen die bestmögliche Nutzererfahrung zu bieten. 
-      <a href="cookies.html" class="text-primary">Erfahren Sie mehr</a> über die Verwendung von Cookies. 
-      Durch Klicken auf "Akzeptieren" stimmen Sie der Verwendung von Cookies zu.
-    </p>
-    <button id="acceptCookies" class="btn btn-primary">Akzeptieren</button>
-  </div>
+    <div id="cookieBanner" class="cookie-banner">
+        <p>Diese Website verwendet Cookies, um Ihnen die bestmögliche Nutzererfahrung zu bieten. 
+        <a href="cookies.html" class="text-primary">Erfahren Sie mehr</a> über die Verwendung von Cookies. 
+        Durch Klicken auf "Akzeptieren" stimmen Sie der Verwendung von Cookies zu.
+        </p>
+        <button id="acceptCookies" class="btn btn-primary">Akzeptieren</button>
+    </div>
   
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Heritage Hideaways</a>
@@ -33,15 +33,18 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#" onclick="showSection('contact')">Kontakt</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="addApartmentLink" onclick="showSection('addApartment')" style="display: none;">Ferienwohnung hinzufügen</a>
+                </li>
             </ul>
             <div class="ml-auto" id="auth-buttons">
                 <button class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Anmelden</button>
                 <button class="btn btn-secondary" data-toggle="modal" data-target="#registerModal">Registrieren</button>
-            </div>            
+            </div>
             <div class="ml-auto" id="user-area" style="display: none;">
                 <span id="welcome-message"></span>
                 <button class="btn btn-danger" id="logout-button">Abmelden</button>
-            </div>            
+            </div>
         </div>
     </nav>
 
@@ -52,47 +55,7 @@
         </div>
 
         <div id="about" class="content-section" style="display: none;">
-            <h2>Ferienwohnungen</h2>
-        
-            <!-- Button für Anbieter, um Ferienwohnung hinzuzufügen -->
-            <button id="addPropertyButton" class="btn btn-success" style="display: none;" onclick="toggleAddPropertySection()">Ferienwohnung hinzufügen</button>
-        
-            <!-- Anbieterbereich - Sichtbar für eingeloggte Anbieter -->
-            <div id="addPropertySection" style="display: none;">
-                <h3>Ferienwohnung hinzufügen</h3>
-                <form id="addPropertyForm">
-                    <div class="form-group">
-                        <label for="propertyName">Name der Ferienwohnung</label>
-                        <input type="text" class="form-control" id="propertyName" placeholder="Ferienwohnung Name" required>
-                    </div>
-        
-                    <div class="form-group">
-                        <label for="propertyDescription">Beschreibung</label>
-                        <textarea class="form-control" id="propertyDescription" rows="3" placeholder="Beschreibung der Ferienwohnung" required></textarea>
-                    </div>
-        
-                    <div class="form-group">
-                        <label for="propertyAvailability">Verfügbarkeit (Datum im Format YYYY-MM-DD)</label>
-                        <input type="text" class="form-control" id="propertyAvailability" placeholder="z.B. 2024-12-01" required>
-                    </div>
-        
-                    <div class="form-group">
-                        <label for="propertyPrice">Preis pro Nacht (€)</label>
-                        <input type="number" class="form-control" id="propertyPrice" placeholder="Preis" required>
-                    </div>
-        
-                    <div class="form-group">
-                        <label for="propertyImage">Bild der Ferienwohnung</label>
-                        <input type="file" class="form-control" id="propertyImage" required>
-                    </div>
-        
-                    <button type="submit" class="btn btn-primary">Ferienwohnung hinzufügen</button>
-                </form>
-        
-                <!-- Statusmeldung -->
-                <div id="addPropertyStatus" style="margin-top: 10px;"></div>
-            </div>
-        </div>        
+            <h2>Ferienwohnungen</h2>  
                 
         <div id="contact" class="content-section" style="display: none;">
             <h2>Kontakt</h2>
@@ -137,37 +100,36 @@
     </div>
 
     <!-- Anmelde-Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Anmelden</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label for="loginEmail">E-Mail:</label>
-                        <input type="email" class="form-control" id="loginEmail" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="loginPassword">Passwort:</label>
-                        <input type="password" class="form-control" id="loginPassword" required>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="isProvider">
-                        <label class="form-check-label" for="isProvider">Ich bin Anbieter</label>
-                    </div>
-                    <div id="loginStatus" class="text-danger"></div>
-                    <button type="submit" class="btn btn-primary">Anmelden</button>
-                </form>
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Anmelden</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">E-Mail:</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Passwort:</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="isProvider">
+                            <label class="form-check-label" for="isProvider">Ich bin Anbieter</label>
+                        </div>
+                        <div id="loginStatus" class="text-danger"></div>
+                        <button type="submit" class="btn btn-primary">Anmelden</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
 
     <!-- Registrierungsmodal -->
     <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
@@ -175,7 +137,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="registerModalLabel">Registrieren</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -193,10 +155,6 @@
                             <label for="registerPassword">Passwort:</label>
                             <input type="password" class="form-control" id="registerPassword" required>
                         </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="isProvider">
-                            <label class="form-check-label" for="isProvider">Ich bin Anbieter</label>
-                        </div>                        
                         <div id="registerStatus" class="text-danger"></div>
                         <button type="submit" class="btn btn-primary">Registrieren</button>
                     </form>
@@ -205,12 +163,11 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="App.js"></script> <!-- Verlinkung zu App.js -->
+    <script src="App.js"></script> <!-- Benutzerdefinierte JS-Datei -->
 </body>
-
 <!-- Footer -->
 <footer class="bg-light text-center text-lg-start mt-4">
     <div class="container p-4">
@@ -234,6 +191,4 @@
       © 2024 Heritage Hideaways
     </div>
   </footer>
-  
-  
 </html>

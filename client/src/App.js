@@ -124,6 +124,7 @@ async function bookProperty(propertyId) {
 window.onload = function() {
   showSection('home'); // Zeige die Startseite
   fetchProperties();   // Lade die Ferienwohnungen
+  updateNavbar(); // Stelle sicher, dass die Navbar aktualisiert wird
   
   // Überprüfe die Cookie-Einwilligung und zeige ggf. den Cookie-Banner
   if (!checkCookieConsent()) {
@@ -174,6 +175,23 @@ let user = {
   isProvider: false // Initialisiere isProvider oder andere Eigenschaften, die du brauchst
 };
 
+function updateNavbar() {
+  const addApartmentLink = document.getElementById('addApartmentLink');
+  
+  // Link nur anzeigen, wenn der Nutzer Provider ist
+  addApartmentLink.style.display = user.isProvider ? 'block' : 'none';
+
+  // Beispiel für das Anzeigen einer Begrüßung
+  const welcomeMessage = document.getElementById('welcome-message');
+  welcomeMessage.textContent = user.isProvider ? "Willkommen, Anbieter!" : "Willkommen!";
+}
+
+function onLogin() {
+  const isProviderCheckbox = document.getElementById('isProvider');
+  user.isProvider = isProviderCheckbox.checked; // Checkboxwert speichern
+  updateNavbar(); // Navbar aktualisieren
+}
+
 // Anmeldung Absende-Logik
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
   event.preventDefault();
@@ -191,7 +209,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
           headers: {
               'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ email, password, isProvider: user.isProvider }) // Sende `isProvider` zusammen mit den anderen Daten
+          body: JSON.stringify({ email, password }) // Sende die Anmeldedaten
       });
 
       if (response.ok) {
@@ -201,8 +219,8 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
           showUserInterface(email); // Benutzeroberfläche nach dem Login anzeigen
           showSection('home'); // Zeige die Startseite nach der Anmeldung
           
-          // Anbieterbereich anzeigen oder ausblenden
-          showProviderSection();
+          // Hier solltest du die Navbar aktualisieren
+          updateNavbar(); // Füge diesen Aufruf hinzu
       } else {
           const error = await response.text();
           console.error('Login error response:', error);
