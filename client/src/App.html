@@ -34,7 +34,7 @@
                     <a class="nav-link" href="#" onclick="showSection('contact')">Kontakt</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" id="addApartmentLink" onclick="showSection('addApartment')" style="display: none;">Ferienwohnung hinzufügen</a>
+                    <a class="nav-link" href="#add-property" id="addApartmentLink" onclick="showAddPropertyForm()" style="display: none;">Ferienwohnung hinzufügen</a>
                 </li>
             </ul>
             <div class="ml-auto" id="auth-buttons">
@@ -99,6 +99,30 @@
             </div>
         </div>
     </div>
+
+    <!-- Ferienwohnung hinzufügen -->
+<div id="add-property" style="display: none;">
+    <h2>Ferienwohnung hinzufügen</h2>
+    <form id="property-form" enctype="multipart/form-data">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="description">Beschreibung:</label>
+        <textarea id="description" name="description" required></textarea><br>
+
+        <label for="availability">Verfügbarkeit (durch Kommas getrennt):</label>
+        <input type="text" id="availability" name="availability" required><br>
+
+        <label for="price">Preis:</label>
+        <input type="number" id="price" name="price" required><br>
+
+        <label for="image">Bild hochladen:</label>
+        <input type="file" id="image" name="image" accept="image/*" required><br>
+
+        <button type="submit">Ferienwohnung hinzufügen</button>
+    </form>
+    <div id="response-message"></div>
+</div>
 
     <!-- Anmelde-Modal -->
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">

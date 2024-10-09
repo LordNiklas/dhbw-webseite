@@ -173,4 +173,39 @@ footer .text-center {
   margin-left: 10px;
 }
 
+#add-property {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: #f9f9f9;
+}
+
+#add-property h2 {
+  margin-bottom: 15px;
+}
+
+#add-property label {
+  display: block;
+  margin-top: 10px;
+}
+
+#add-property input, #add-property textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+
+#add-property button {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#add-property button:hover {
+  background-color: #218838;
+}
+
 

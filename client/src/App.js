@@ -3,13 +3,25 @@ function showSection(sectionId) {
   // Alle Abschnitte ausblenden
   const sections = document.querySelectorAll('.content-section');
   sections.forEach(section => {
-      section.style.display = 'none';
+      section.style.display = 'none'; // Alle Abschnitte ausblenden
   });
 
   // Den gewählten Abschnitt anzeigen
   const selectedSection = document.getElementById(sectionId);
   if (selectedSection) {
       selectedSection.style.display = 'block'; // Zeige den gewählten Abschnitt an
+  }
+
+  // Überprüfen, ob die ausgewählte Sektion das Hinzufügen von Ferienwohnungen ist
+  if (sectionId === 'add-property') {
+      // Spezielle Behandlung für das Hinzufügen von Ferienwohnungen
+      document.getElementById('add-property').style.display = 'block'; // Zeige das Formular für das Hinzufügen von Ferienwohnungen an
+  } else {
+      // Verstecke das Formular für das Hinzufügen von Ferienwohnungen
+      const addPropertySection = document.getElementById('add-property');
+      if (addPropertySection) {
+          addPropertySection.style.display = 'none'; // Verstecke das Formular
+      }
   }
 }
 
@@ -51,6 +63,33 @@ function displayProperties(properties) {
     aboutSection.appendChild(propertyCard);
   });
 }
+
+document.getElementById('property-form').addEventListener('submit', async function(event) {
+    event.preventDefault(); // Verhindert das Standard-Submit-Verhalten
+
+    const formData = new FormData(this);
+
+    try {
+        const response = await fetch('/api/properties', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            document.getElementById('response-message').innerText = 'Ferienwohnung erfolgreich hinzugefügt!';
+            // Hier kannst du auch das Formular zurücksetzen, falls gewünscht
+            this.reset();
+        } else {
+            const errorData = await response.json();
+            document.getElementById('response-message').innerText = 'Fehler: ' + errorData.error;
+        }
+    } catch (error) {
+        console.error('Fehler beim Hinzufügen der Ferienwohnung:', error);
+        document.getElementById('response-message').innerText = 'Fehler beim Hinzufügen der Ferienwohnung.';
+    }
+});
+
 
 // Funktion, um das Buchungsmodal zu öffnen
 async function openBookingModal(propertyId, propertyName) {
@@ -399,5 +438,12 @@ end('name', name);
 
 // Funktion, um das Formular anzuzeigen
 function showAddPropertyForm() {
-  showSection('addPropertySection'); // Zeige den Abschnitt zum Hinzufügen von Ferienwohnungen
+  // Alle Content-Sections ausblenden
+  document.querySelectorAll('.content-section').forEach(section => {
+      section.style.display = 'none';
+  });
+
+  // Das Formular für das Hinzufügen von Ferienwohnungen anzeigen
+  document.getElementById('add-property').style.display = 'block';
 }
+

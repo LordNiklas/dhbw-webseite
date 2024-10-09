@@ -81,28 +81,16 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-// Konfiguration für das Bild-Upload (mit Multer)
+// Konfiguration von multer für das Hochladen von Bildern
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './uploads/');
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Verzeichnis, in das die Bilder gespeichert werden sollen
   },
-  filename: (req, file, cb) => {
-    cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // Eindeutiger Dateiname
   }
 });
-
-const upload = multer({ storage });
-
-// API-Route zum Abrufen aller Ferienwohnungen
-app.get('/api/properties', async (req, res) => {
-  try {
-    const properties = await Property.find();
-    res.json(properties);
-  } catch (err) {
-    console.error('Fehler beim Abrufen der Eigenschaften:', err);
-    res.status(500).json({ error: 'Interner Serverfehler' });
-  }
-});
+const upload = multer({ storage: storage });
 
 // API-Route zum Abrufen einer spezifischen Ferienwohnung anhand ihrer ID
 app.get('/api/properties/:id', async (req, res) => {
@@ -119,29 +107,43 @@ app.get('/api/properties/:id', async (req, res) => {
   }
 });
 
-// POST-Route zum Hinzufügen der Ferienwohnung
-app.post('/api/properties', upload.single('image'), async (req, res) => {
-  const { name, description, availability, price } = req.body;
-  const image = req.file ? req.file.filename : null;
 
-  if (!name || !description || !availability || !price || !image) {
-    return res.status(400).json({ error: 'Alle Felder sind erforderlich.' });
-  }
-
+// API-Route zum Abrufen aller Ferienwohnungen
+app.get('/api/properties', async (req, res) => {
   try {
+    const properties = await Property.find();
+    res.json(properties);
+  } catch (err) {
+    console.error('Fehler beim Abrufen der Eigenschaften:', err);
+    res.status(500).json({ error: 'Interner Serverfehler' });
+  }
+});
+
+// API-Route zum Hinzufügen einer neuen Ferienwohnung
+app.post('/api/properties', upload.single('image'), async (req, res) => {
+  try {
+    const { name, description, availability, price } = req.body;
+    const image = req.file; // Bilddatei
+
+    // Überprüfen, ob alle erforderlichen Felder vorhanden sind
+    if (!name || !description || !availability || !price || !image) {
+      return res.status(400).json({ error: 'Alle Felder sind erforderlich.' });
+    }
+
+    // Erstellen einer neuen Property-Instanz
     const newProperty = new Property({
       name,
       description,
-      availability: availability.split(','), // Sicherstellen, dass Verfügbarkeiten als Array gespeichert werden
+      availability: availability.split(','), // Umwandeln in ein Array
       price,
-      image
+      image: image.filename // Oder wie du das Bild speicherst
     });
 
-    await newProperty.save();
-    res.status(201).json({ message: 'Ferienwohnung erfolgreich hinzugefügt!' });
-  } catch (error) {
-    console.error('Fehler beim Hinzufügen der Ferienwohnung:', error);
-    res.status(500).json({ error: 'Serverfehler.' });
+    await newProperty.save(); // Speichern der neuen Ferienwohnung
+    res.status(201).json(newProperty); // Rückgabe der neuen Ferienwohnung
+  } catch (err) {
+    console.error('Fehler beim Hinzufügen der Ferienwohnung:', err);
+    res.status(500).json({ error: 'Interner Serverfehler' });
   }
 });
 
