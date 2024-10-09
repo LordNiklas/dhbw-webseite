@@ -167,6 +167,17 @@ document.getElementById('contactForm').addEventListener('submit', function(event
     return;
   }
 
+  // Füge den Event Listener für das Formular hinzu
+  const addPropertyForm = document.getElementById('addPropertyForm');
+  if (addPropertyForm) {
+    addPropertyForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
+    
+    });
+  } else {
+    console.error('Das Formular mit der ID "addPropertyForm" wurde nicht gefunden.');
+  }
+
   document.getElementById('formStatus').textContent = 'Nachricht wurde gesendet!';
 });
 
@@ -264,12 +275,11 @@ document.getElementById('registerForm').addEventListener('submit', async functio
 });
 
 // Funktion zur Anzeige des Benutzernamens und Logout-Buttons
-// Funktion zur Anzeige des Benutzernamens und Logout-Buttons
 function showUserInterface(email) {
   // Hides the login and register links
   document.querySelectorAll('#auth-buttons .btn').forEach(el => el.style.display = 'none');
 
-  // Creates a new user interface section
+  // Erstellt ein neues Benutzer-Interface
   const userInterface = document.createElement('div');
   userInterface.className = 'navbar-nav';
   userInterface.innerHTML = `
@@ -277,13 +287,13 @@ function showUserInterface(email) {
     <button class="btn btn-danger ml-2" id="logoutButton">Logout</button>
   `;
 
-  // Add user interface to the navbar
+  // Füge das Benutzer-Interface zur Navbar hinzu
   const navbar = document.getElementById('navbarNav');
   navbar.appendChild(userInterface);
 
-  // Add logout button functionality
+  // Logout-Button Funktionalität hinzufügen
   document.getElementById('logoutButton').addEventListener('click', function() {
-    logoutUser();
+    logoutUser(); // Logout-Funktion ausführen
   });
 }
 
@@ -291,17 +301,22 @@ function showUserInterface(email) {
 async function logoutUser() {
   try {
     const response = await fetch('/api/logout', {
-      method: 'POST'
+      method: 'POST',
+      credentials: 'same-origin',  // Sendet Cookies mit
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
 
     if (response.ok) {
-      location.reload(); // Reload the page after logout
+      console.log('Erfolgreich abgemeldet.');
+      // Leite den Benutzer zur Login-Seite weiter oder aktualisiere die Seite
+      window.location.href = '/login';  // Beispiel-Weiterleitung zur Login-Seite
     } else {
-      const error = await response.text();
-      console.error('Logout error:', error);
+      console.error('Fehler beim Abmelden:', await response.text());
     }
   } catch (error) {
-    console.error('Fehler bei der Abmeldung:', error);
+    console.error('Fehler beim Abmelden:', error);
   }
 }
 

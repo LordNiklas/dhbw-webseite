@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 const cors = require('cors');
 const { body, validationResult } = require('express-validator');
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 // Initialisiere Express
 const app = express();
@@ -21,6 +23,28 @@ mongoose.connect('mongodb://localhost:27017/heritageHideways')
   .catch(err => {
     console.error('Datenbankverbindung fehlgeschlagen:', err);
   });
+
+// Erstelle eine Instanz von MongoDBStore
+const store = new MongoDBStore({
+  uri: 'mongodb://localhost:27017/heritageHideways',
+  collection: 'sessions', // Name der Kollektion, in der die Sessions gespeichert werden
+});
+
+// Fehlerbehandlung für den Store
+store.on('error', (error) => {
+  console.error('MongoDBStore error:', error);
+});
+
+// Session Middleware hinzufügen
+app.use(session({
+  secret: 'dein_geheimer_schlüssel', // Setze einen geheimen Schlüssel
+  resave: false, // Wenn false, wird die Session nicht immer gespeichert, auch wenn sie nicht verändert wurde
+  saveUninitialized: false, // Wenn false, wird die Session nicht gespeichert, wenn sie noch nicht initialisiert wurde
+  store: store, // Verwende MongoDBStore als Speichermedium
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 // Session-Cookie läuft nach 24 Stunden ab
+  }
+}));
 
 // Definiere ein Schema und Modell für die Ferienwohnungen
 const propertySchema = new mongoose.Schema({
@@ -150,32 +174,28 @@ app.post('/api/properties/:id/book', async (req, res) => {
 });
 
 // API-Route zum Anmelden eines Benutzers
-// Beispiel für eine Express.js-Route zum Anmelden
 app.post('/api/login', async (req, res) => {
-  const { email, password, isProvider } = req.body; // Füge `isProvider` hinzu
+  const { email, password } = req.body;
 
   try {
-      // Benutzer in der Datenbank finden
-      const user = await User.findOne({ email });
-      if (!user) {
-          return res.status(401).send('Benutzer nicht gefunden.');
-      }
+    const user = await User.findOne({ email });
+    if (!user) {
+      console.error('Benutzer nicht gefunden:', email);
+      return res.status(401).send('Benutzer nicht gefunden.');
+    }
 
-      // Passwortüberprüfung (angenommen, Sie verwenden bcrypt oder ein ähnliches Paket)
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-          return res.status(401).send('Falsches Passwort.');
-      }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      console.error('Falsches Passwort für Benutzer:', email);
+      return res.status(401).send('Falsches Passwort.');
+    }
 
-      // Hier können Sie den Anbieterstatus speichern
-      user.isProvider = isProvider; // Speichern Sie den Anbieterstatus
-      await user.save(); // Aktualisieren Sie den Benutzer in der Datenbank
-
-      // Erfolgreiches Login
-      res.send('Erfolgreich angemeldet.');
-  } catch (error){
-      console.error('Fehler bei der Anmeldung:', error);
-      res.status(500).send('Interner Serverfehler.');
+    // Setze die userId in der Session
+    req.session.userId = user._id;
+    res.send('Erfolgreich angemeldet.');
+  } catch (error) {
+    console.error('Fehler bei der Anmeldung:', error);
+    res.status(500).send('Interner Serverfehler.');
   }
 });
 
@@ -216,6 +236,31 @@ app.post('/api/register', [
     }
     res.status(500).json({ error: 'Fehler bei der Registrierung.' });
   }
+});
+
+// API-Route zum Abmelden des Benutzers (Logout)
+app.post('/api/logout', (req, res) => {
+  if (req.session) {
+    req.session.destroy(err => {
+      if (err) {
+        console.error('Fehler beim Zerstören der Session:', err);
+        return res.status(500).send('Fehler beim Abmelden.');
+      }
+      res.clearCookie('connect.sid'); // Session-Cookie löschen
+      res.send('Erfolgreich abgemeldet.');
+    });
+  } else {
+    res.status(400).send('Keine aktive Session gefunden.');
+  }
+});
+
+// API-Route zum Abrufen des Benutzerprofils
+app.get('/api/profile', (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).send('Nicht eingeloggt.');
+  }
+
+  res.send(`Willkommen zurück, Benutzer ID: ${req.session.userId}`);
 });
 
 // Route für die Root-URL, die die HTML-Datei zurückgibt

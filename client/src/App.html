@@ -56,7 +56,8 @@
 
         <div id="about" class="content-section" style="display: none;">
             <h2>Ferienwohnungen</h2>  
-                
+        </div>
+            
         <div id="contact" class="content-section" style="display: none;">
             <h2>Kontakt</h2>
             <form id="contactForm">
@@ -167,6 +168,32 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="App.js"></script> <!-- Benutzerdefinierte JS-Datei -->
+
+    <script>
+        // Funktion zur Abmeldung
+        async function logoutUser() {
+            try {
+                const response = await fetch('/api/logout', {
+                    method: 'POST'
+                });
+
+                if (response.ok) {
+                    // Seite nach erfolgreichem Logout neu laden
+                    location.reload();
+                } else {
+                    const error = await response.text();
+                    console.error('Logout error:', error);
+                }
+            } catch (error) {
+                console.error('Fehler bei der Abmeldung:', error);
+            }
+        }
+
+        // Event für den Logout-Button
+        document.getElementById('logout-button').addEventListener('click', function() {
+            logoutUser();
+        });
+    </script>
 </body>
 <!-- Footer -->
 <footer class="bg-light text-center text-lg-start mt-4">
