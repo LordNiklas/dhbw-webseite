@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="App.css"> <!-- Benutzerdefinierte CSS-Datei -->
+    <link rel="stylesheet" href="App.css">
+    <link rel="icon" href="images\logo.svg" type="image/png">
     <title>Heritage Hideaways</title>
 </head>
 <body>
@@ -16,9 +17,9 @@
         </p>
         <button id="acceptCookies" class="btn btn-primary">Akzeptieren</button>
     </div>
-  
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Heritage Hideaways</a>
+        <img src="images\logo.svg" alt="Logo" width="150" height="150">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -51,9 +52,16 @@
     <div class="container mt-4">
         <div id="home" class="content-section">
             <h1>Willkommen bei Heritage Hideaways!</h1>
-            <p>Ihr perfekter Ort für entspannende Ferienwohnungen.</p>
+            <!-- YouTube-Video einbetten -->
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/MAN9m-ixvSA?si=71pwWxnMj1t1n-pG&amp;start=11" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>" 
+                    allowfullscreen></iframe>
         </div>
-
+            <p>Willkommen bei The Heritage Hideaways, wo Luxus und Tradition aufeinandertreffen. Unsere erlesenen Ferienhäuser im Old Money-Stil bieten Ihnen die perfekte Kombination aus Eleganz, Diskretion und zeitlosem Charme. Jedes unserer exklusiven Anwesen wurde sorgfältig ausgewählt, um Ihnen ein einzigartiges Urlaubserlebnis zu bieten – geprägt von Raffinesse, Geschichte und höchsten Standards.
+                Ob Sie die Ruhe eines ländlichen Herrenhauses oder die klassische Eleganz einer Villa am Meer suchen, unsere Residenzen verkörpern die Werte von Beständigkeit, Qualität und Klasse. Jedes Haus ist eine Hommage an vergangene Epochen und bietet zugleich moderne Annehmlichkeiten für Ihren Komfort.
+                Bei uns geht es nicht nur um das Buchen eines Ferienhauses – es geht darum, in eine Welt einzutauchen, in der Luxus und Tradition noch zählen. Buchen Sie Ihr privates Refugium und erleben Sie das zeitlose Lebensgefühl, das unsere Auswahl so besonders macht.</p>
+        </div>
+        
         <div id="about" class="content-section" style="display: none;">
             <h2>Ferienwohnungen</h2>  
         </div>
@@ -233,6 +241,10 @@
             </li>
             <li class="mx-3">
               <a href="cookies.html" class="text-dark">Cookies</a>
+            </li>
+            <li class="mx-3">
+                <a href="raetsel.html" class="text-dark">Top Secret</a>
+                <div class="math-container">
             </li>
           </ul>
         </div>

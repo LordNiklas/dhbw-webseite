@@ -208,4 +208,12 @@ footer .text-center {
   background-color: #218838;
 }
 
+.logo {
+  background-image: url('path/to/logo.svg');
+  width: 150px; /* Breite des Logos */
+  height: 150px; /* Höhe des Logos */
+  background-size: contain; /* Damit das Bild im Container skaliert */
+  background-repeat: no-repeat; /* Verhindert das Wiederholen des Bildes */
+}
+
 
