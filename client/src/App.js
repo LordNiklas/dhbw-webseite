@@ -90,7 +90,6 @@ document.getElementById('property-form').addEventListener('submit', async functi
     }
 });
 
-
 // Funktion, um das Buchungsmodal zu öffnen
 async function openBookingModal(propertyId, propertyName) {
   const modalTitle = document.getElementById('bookingModalLabel');
@@ -126,6 +125,7 @@ async function openBookingModal(propertyId, propertyName) {
     alert('Fehler beim Abrufen der Ferienwohnung.');
   }
 }
+
 
 // Buchungsfunktion
 async function bookProperty(propertyId) {
@@ -336,28 +336,31 @@ function showUserInterface(email) {
   });
 }
 
-// Funktion zum Abmelden
-async function logoutUser() {
-  try {
-    const response = await fetch('/api/logout', {
-      method: 'POST',
-      credentials: 'same-origin',  // Sendet Cookies mit
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+// Funktion zur Abmeldung
+        async function logoutUser() {
+            try {
+                const response = await fetch('/api/logout', {
+                    method: 'POST'
+                });
 
-    if (response.ok) {
-      console.log('Erfolgreich abgemeldet.');
-      // Leite den Benutzer zur Login-Seite weiter oder aktualisiere die Seite
-      window.location.href = '/login';  // Beispiel-Weiterleitung zur Login-Seite
-    } else {
-      console.error('Fehler beim Abmelden:', await response.text());
-    }
-  } catch (error) {
-    console.error('Fehler beim Abmelden:', error);
-  }
-}
+                if (response.ok) {
+                    // Seite nach erfolgreichem Logout neu laden
+                    location.reload();
+                } else {
+                    const error = await response.text();
+                    console.error('Logout error:', error);
+                }
+            } catch (error) {
+                console.error('Fehler bei der Abmeldung:', error);
+            }
+        }
+
+        // Event für den Logout-Button
+        document.getElementById('logout-button').addEventListener('click', function() {
+            logoutUser();
+        });
+   
+
 
 // Event Listener für das Formular zum Hinzufügen der Ferienwohnung
 document.getElementById('addPropertyForm').addEventListener('submit', async function(event) {

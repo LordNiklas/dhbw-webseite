@@ -54,12 +54,23 @@
             <h1>Willkommen bei Heritage Hideaways!</h1>
             <!-- YouTube-Video einbetten -->
         <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/MAN9m-ixvSA?si=71pwWxnMj1t1n-pG&amp;start=11" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>" 
+            <iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/tsm0vGOB3Ao?si=WcGLR3DmXWFH4n3p" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>" 
                     allowfullscreen></iframe>
         </div>
-            <p>Willkommen bei The Heritage Hideaways, wo Luxus und Tradition aufeinandertreffen. Unsere erlesenen Ferienhäuser im Old Money-Stil bieten Ihnen die perfekte Kombination aus Eleganz, Diskretion und zeitlosem Charme. Jedes unserer exklusiven Anwesen wurde sorgfältig ausgewählt, um Ihnen ein einzigartiges Urlaubserlebnis zu bieten – geprägt von Raffinesse, Geschichte und höchsten Standards.
-                Ob Sie die Ruhe eines ländlichen Herrenhauses oder die klassische Eleganz einer Villa am Meer suchen, unsere Residenzen verkörpern die Werte von Beständigkeit, Qualität und Klasse. Jedes Haus ist eine Hommage an vergangene Epochen und bietet zugleich moderne Annehmlichkeiten für Ihren Komfort.
-                Bei uns geht es nicht nur um das Buchen eines Ferienhauses – es geht darum, in eine Welt einzutauchen, in der Luxus und Tradition noch zählen. Buchen Sie Ihr privates Refugium und erleben Sie das zeitlose Lebensgefühl, das unsere Auswahl so besonders macht.</p>
+            <p><strong>Willkommen bei The Heritage Hideaways</strong>, wo Luxus und Tradition aufeinandertreffen. Unsere <strong>erlesenen Ferienhäuser im Old Money-Stil</strong> bieten Ihnen die perfekte Kombination aus Eleganz, Diskretion und zeitlosem Charme.</p>
+        
+            <p>Jedes unserer exklusiven Anwesen wurde sorgfältig ausgewählt, um Ihnen ein einzigartiges Urlaubserlebnis zu bieten – geprägt von:</p>
+            <ul>
+                <li><strong>Raffinesse</strong></li>
+                <li><strong>Geschichte</strong></li>
+                <li><strong>Höchsten Standards</strong></li>
+            </ul>
+        
+            <p>Ob Sie die Ruhe eines ländlichen Herrenhauses oder die klassische Eleganz einer Villa am Meer suchen, unsere Residenzen verkörpern die Werte von <strong>Beständigkeit</strong>, <strong>Qualität</strong> und <strong>Klasse</strong>. Jedes Haus ist eine Hommage an vergangene Epochen und bietet zugleich moderne Annehmlichkeiten für Ihren Komfort.</p>
+        
+            <p>Bei uns geht es nicht nur um das Buchen eines Ferienhauses – es geht darum, in eine Welt einzutauchen, in der Luxus und Tradition noch zählen. <strong>Buchen Sie Ihr privates Refugium</strong> und erleben Sie das zeitlose Lebensgefühl, das unsere Auswahl so besonders macht.</p>
+       
+        
         </div>
         
         <div id="about" class="content-section" style="display: none;">
@@ -88,25 +99,25 @@
     </div>
 
     <!-- Buchungsmodal -->
-    <div class="modal fade" id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="bookingModalLabel"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="bookingModalBody">
-                    <!-- Buchungsdetails hier -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
-                    <button type="button" class="btn btn-primary" id="confirmBooking">Buchung bestätigen</button>
-                </div>
+<div class="modal fade" id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookingModalLabel">Buchung</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="bookingModalBody">
+                <!-- Buchungsdetails hier -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+                <button type="button" class="btn btn-primary" id="confirmBooking">Buchung bestätigen</button>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Ferienwohnung hinzufügen -->
 <div id="add-property" style="display: none;">
@@ -201,32 +212,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="App.js"></script> <!-- Benutzerdefinierte JS-Datei -->
 
-    <script>
-        // Funktion zur Abmeldung
-        async function logoutUser() {
-            try {
-                const response = await fetch('/api/logout', {
-                    method: 'POST'
-                });
-
-                if (response.ok) {
-                    // Seite nach erfolgreichem Logout neu laden
-                    location.reload();
-                } else {
-                    const error = await response.text();
-                    console.error('Logout error:', error);
-                }
-            } catch (error) {
-                console.error('Fehler bei der Abmeldung:', error);
-            }
-        }
-
-        // Event für den Logout-Button
-        document.getElementById('logout-button').addEventListener('click', function() {
-            logoutUser();
-        });
-    </script>
 </body>
+
 <!-- Footer -->
 <footer class="bg-light text-center text-lg-start mt-4">
     <div class="container p-4">

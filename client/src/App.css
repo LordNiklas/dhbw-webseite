@@ -216,4 +216,188 @@ footer .text-center {
   background-repeat: no-repeat; /* Verhindert das Wiederholen des Bildes */
 }
 
+p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #333;
+}
+
+ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+strong {
+  color: #4A4A4A;
+  font-weight: bold;
+}
+
+em {
+  font-style: italic;
+  color: #555;
+}
+
+.text-container {
+  display: block;  /* Stelle sicher, dass es sichtbar ist */
+  color: #333;     /* Textfarbe prüfen */
+}
+
+.chalet-description {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chalet-description h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.chalet-description h3 {
+  font-size: 22px;
+  margin-top: 20px;
+  color: #34495e;
+}
+
+.chalet-description p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #7f8c8d;
+}
+
+.chalet-description ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.chalet-description ul li {
+  margin-bottom: 10px;
+}
+
+.chalet-description ul li strong {
+  color: #2c3e50;
+}
+
+.chalet-description strong {
+  color: #e74c3c;
+}
+
+.beach-house-description {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.beach-house-description h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #2c3e50; /* Gleiche Farbe wie beim Bergchalet */
+}
+
+.beach-house-description h3 {
+  font-size: 22px;
+  margin-top: 20px;
+  color: #34495e; /* Gleiche Farbe wie beim Bergchalet */
+}
+
+.beach-house-description p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #7f8c8d; /* Gleiche Farbe wie beim Bergchalet */
+}
+
+.beach-house-description ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.beach-house-description ul li {
+  margin-bottom: 10px;
+}
+
+.beach-house-description ul li strong {
+  color: #2c3e50; /* Gleiche Farbe wie beim Bergchalet */
+}
+
+.beach-house-description strong {
+  color: #e74c3c; /* Gleiche Farbe wie beim Bergchalet */
+}
+
+.modal-content {
+  border-radius: 15px;
+  padding: 20px;
+  background-color: #f9f9f9; /* Leichter Hintergrund für Eleganz */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  background-color: #2c3e50; /* Dunkles Blau für den Header */
+  color: white;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  padding: 15px;
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.close {
+  color: white;
+  opacity: 0.9;
+}
+
+.modal-body {
+  font-size: 16px;
+  color: #34495e; /* Angenehmes Dunkelgrau für den Text */
+  padding: 20px;
+}
+
+.modal-body p {
+  margin-bottom: 20px;
+}
+
+.modal-footer {
+  border-top: none;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #ecf0f1; /* Leicht abgesetzte Farbe für den Footer */
+}
+
+.modal-footer .btn-secondary {
+  background-color: #7f8c8d;
+  border-color: #7f8c8d;
+  color: white;
+}
+
+.modal-footer .btn-primary {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.modal-footer .btn-primary:hover {
+  background-color: #c0392b;
+  border-color: #c0392b;
+}
+
+
 
